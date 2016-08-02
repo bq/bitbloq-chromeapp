@@ -1,0 +1,16 @@
+{
+    "name": "Bitbloq",
+    "description": "Bitbloq Chrome app",
+    "version": "1.0.0",
+    "manifest_version": 2,
+    "app": {
+        "background": {
+            "scripts": ["background.bundle.js"]
+        }
+    },
+    "externally_connectable": {
+        "matches": ["http://127.0.0.1:*/*"]
+    },
+    "permissions": ["serial"],
+    "icons": { "16": "icons/Bitbloq_16px.png", "32": "icons/Bitbloq_32px.png", "48": "icons/Bitbloq_48px.png", "128": "icons/Bitbloq_128px.png", "256": "icons/Bitbloq_256px.png" }
+}
