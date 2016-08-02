@@ -12,11 +12,11 @@ Bitbloq 2 Chrome App
 
 3.- 'grunt watch' to automatic chrome app generation on dist folder
 
-4. In your Chrome browser, visit `chrome://extensions`
+4.- In your Chrome browser, visit `chrome://extensions`
 
-5. Click `Load unpacked extension`
+5.- Click `Load unpacked extension`
 
-6. Navigate to the dist folder, and click `Select`
+6.- Navigate to the dist folder, and click `Select`
 
 
 ## Special Thanks
