@@ -44,6 +44,12 @@ module.exports = function(grunt) {
         }
     });
 
+    grunt.registerTask('removeLocalStorageFunction', function() {
+        var bundle = grunt.file.read('./dist/background.bundle.js');
+        grunt.file.write('./dist/background.bundle.js', bundle.replace(/global.localStorage/g, false));
+
+    });
+
     // Default task(s).
     grunt.registerTask('default', function() {
         grunt.task.run([
@@ -56,7 +62,8 @@ module.exports = function(grunt) {
             'jshint:all',
             'clean:dist',
             'copy:dist',
-            'exec:browserify'
+            'exec:browserify',
+            'removeLocalStorageFunction'
         ]);
     });
 

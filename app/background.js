@@ -3,13 +3,29 @@ var uploader = require('./lib/flash');
 
 // when the webpage sends a message and we receive it, pass on the info to the uploader and request a flash to the device.
 chrome.runtime.onConnectExternal.addListener(function(port) {
+    port.postMessage('connected');
     port.onMessage.addListener(function(msg) {
-        // call flash process
-        uploader.flash(msg.board, msg.file, function(error) {
-            // prepare the response object
-            var message = error ? { error: error.message } : { success: true };
-            // send back the status of the flash to the webpage so it knows when it's done/errored.
-            port.postMessage(message);
-        });
+        console.log('msg', msg);
+        switch (msg.type) {
+            case 'upload':
+                upload(msg, port);
+                break;
+            case 'ping':
+                port.postMessage('ping');
+                break;
+            default:
+                console.log('undefined type');
+        }
+
     });
 });
+
+function upload(msg, port) {
+    // call flash process
+    uploader.flash(msg.board, msg.file, function(error) {
+        // prepare the response object
+        var message = error ? { error: error.message } : { success: true };
+        // send back the status of the flash to the webpage so it knows when it's done/errored.
+        port.postMessage(message);
+    });
+}
