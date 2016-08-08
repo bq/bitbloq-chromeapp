@@ -19,7 +19,7 @@ chrome.runtime.onConnectExternal.addListener(function(port) {
                 port.postMessage('ping');
                 break;
             case 'serial-connect':
-                getPorts();
+                connectSerial();
                 break;
             case 'serial-disconnect':
                 disconnectSerial();
@@ -50,7 +50,7 @@ function disconnectSerial() {
     chrome.runtime.reload();
 }
 
-function getPorts() {
+function connectSerial() {
     portDetection.getPorts(function(err, ports) {
         connection.connect(ports[0].comName);
     });
