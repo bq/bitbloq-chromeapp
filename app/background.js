@@ -21,6 +21,9 @@ chrome.runtime.onConnectExternal.addListener(function(port) {
             case 'serial-connect':
                 connectSerial();
                 break;
+            case 'serial-connect-send':
+                receiveData(msg.data);
+                break;
             case 'serial-disconnect':
                 disconnectSerial();
                 break;
@@ -53,6 +56,13 @@ function disconnectSerial() {
 function connectSerial() {
     portDetection.getPorts(function(err, ports) {
         connection.connect(ports[0].comName);
+    });
+}
+
+function receiveData(data) {
+    connection.send(data, function(response) {
+        console.log('response');
+        console.log(response);
     });
 }
 
