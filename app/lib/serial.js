@@ -34,18 +34,7 @@ exports.SerialConnection.prototype.onReceive = function(receiveInfo) {
         console.log('no será esto');
         return;
     }
-
-    console.log('receiveInfo');
-    console.log(receiveInfo.data);
-    this.lineBuffer += utils.ab2str(receiveInfo.data);
-    var index;
-    while ((index = this.lineBuffer.indexOf('\n')) >= 0) {
-        console.log('entro aqui');
-        var line = this.lineBuffer.substr(0, index + 1);
-        this.onReadLine.dispatch(line);
-        this.lineBuffer = this.lineBuffer.substr(index + 1);
-    }
-
+    this.onReadLine.dispatch(utils.ab2str(receiveInfo.data));
 };
 
 exports.SerialConnection.prototype.onReceiveError = function(errorInfo) {
@@ -57,6 +46,12 @@ exports.SerialConnection.prototype.connect = function(path) {
     serial.connect(path, {
         ctsFlowControl: true
     }, this.onConnectComplete.bind(this));
+};
+
+exports.SerialConnection.prototype.update = function(baudrate, callback) {
+    serial.update(this.connectionId, {
+        bitrate: baudrate
+    }, callback);
 };
 
 exports.SerialConnection.prototype.send = function(msg) {

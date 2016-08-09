@@ -27,6 +27,9 @@ chrome.runtime.onConnectExternal.addListener(function(port) {
             case 'serial-disconnect':
                 disconnectSerial();
                 break;
+            case 'change-baudrate':
+                changeBaudarate(msg.data);
+                break;
             default:
                 console.log('undefined type');
         }
@@ -70,6 +73,13 @@ function receiveData(data) {
     });
 }
 
+function changeBaudarate(baudrate){
+  connection.update(baudrate, function(result){
+    console.log('hecho');
+    console.log(result);
+  });
+}
+
 ////////////////////////////////////////////////////////
 /////////////////SERIAL MONITOR/////////////////////////
 ////////////////////////////////////////////////////////
@@ -78,7 +88,6 @@ var connection = new serialLib.SerialConnection();
 
 connection.onConnect.addListener(function() {
     console.log('connected');
-    connection.send('hello arduino');
 });
 
 connection.onReadLine.addListener(function(line) {

@@ -14,7 +14,7 @@ module.exports.ab2str = function(buf) {
 /**
  * Transform String in ArrayBuffer
  * @param {String} String
- * @return {Array Buffer} bufferf
+ * @return {Array Buffer} buffer
  */
 module.exports.str2ab = function(str) {
     var encodedString = encodeURIComponent(str);
