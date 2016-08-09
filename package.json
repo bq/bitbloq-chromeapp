@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/bq/bitbloq-chromeapp#readme",
   "dependencies": {
-    "avrgirl-arduino": "^1.9.2"
+    "avrgirl-arduino": "^1.9.3"
   },
   "devDependencies": {
     "browserify": "^13.1.0",

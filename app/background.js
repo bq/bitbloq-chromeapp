@@ -37,12 +37,16 @@ chrome.runtime.onConnectExternal.addListener(function(port) {
 function upload(msg, port) {
     // call flash process
     uploader.flash(msg.board, msg.file, function(error) {
-        // prepare the response object
-        var message = error ? {
-            error: error.message
-        } : {
-            success: true
+        var message = {
+            type: 'upload'
         };
+        if (error) {
+            message.success = false;
+            message.error = error.message;
+        } else {
+            message.success = true;
+        }
+
         // send back the status of the flash to the webpage so it knows when it's done/errored.
         port.postMessage(message);
     });
