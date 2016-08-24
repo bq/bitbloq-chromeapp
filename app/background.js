@@ -3,11 +3,11 @@ var uploader = require('./lib/flash');
 var portDetection = require('./lib/ports');
 var serialLib = require('./lib/serial');
 
-var portConnected;
+var connectedPort;
 
 // when the webpage sends a message and we receive it, pass on the info to the uploader and request a flash to the device.
 chrome.runtime.onConnectExternal.addListener(function(port) {
-    portConnected = port;
+    connectedPort = port;
     port.postMessage('connected');
     port.onMessage.addListener(function(msg) {
         console.log('msg', msg);
@@ -19,7 +19,7 @@ chrome.runtime.onConnectExternal.addListener(function(port) {
                 port.postMessage('ping');
                 break;
             case 'serial-connect':
-                connectSerial();
+                connectSerial(msg);
                 break;
             case 'serial-connect-send':
                 receiveData(msg.data);
@@ -30,6 +30,9 @@ chrome.runtime.onConnectExternal.addListener(function(port) {
             case 'change-baudrate':
                 changeBaudarate(msg.data);
                 break;
+            case 'get-ports':
+                getPorts(port);
+                break;
             default:
                 console.log('undefined type');
         }
@@ -39,57 +42,86 @@ chrome.runtime.onConnectExternal.addListener(function(port) {
 
 function upload(msg, port) {
     // call flash process
-    uploader.flash(msg.board, msg.file, function(error) {
-        var message = {
-            type: 'upload'
-        };
-        if (error) {
-            message.success = false;
-            message.error = error.message;
-        } else {
-            message.success = true;
-        }
+    serialPortConnection.disconnect(function() {
+        uploader.flash(msg.board, msg.file, function(error) {
+            var message = {
+                type: 'upload'
+            };
+            if (error) {
+                message.success = false;
+                message.error = error.message;
+            } else {
+                message.success = true;
+            }
 
-        // send back the status of the flash to the webpage so it knows when it's done/errored.
-        port.postMessage(message);
+            // send back the status of the flash to the webpage so it knows when it's done/errored.
+            port.postMessage(message);
+            serialPortConnection.reconnect();
+        });
     });
 }
 
 function disconnectSerial() {
-    connection.disconnect();
-    chrome.runtime.reload();
+    serialPortConnection.disconnect(function() {
+        console.log('reload');
+        chrome.runtime.reload();
+    });
+
 }
 
-function connectSerial() {
-    portDetection.getPorts(function(err, ports) {
-        connection.connect(ports[0].comName);
+function connectSerial(msg) {
+    console.log('connectSerial', msg.port);
+    serialPortConnection.connect({
+        path: msg.port.comName,
+        endLineCharacter: '\n'
     });
 }
 
 function receiveData(data) {
-    connection.send(data, function(response) {
+    serialPortConnection.send(data, function(response) {
         console.log('response');
         console.log(response);
     });
 }
 
-function changeBaudarate(baudrate){
-  connection.update(baudrate, function(result){
-    console.log('hecho');
-    console.log(result);
-  });
+function changeBaudarate(baudrate) {
+    serialPortConnection.update(baudrate, function(result) {
+        console.log('hecho');
+        console.log(result);
+    });
+}
+
+function getPorts() {
+    portDetection.getPorts(function(err, ports) {
+        console.log('ports');
+        console.log(ports);
+        var message = {
+            type: 'get-ports',
+            ports: ports
+        };
+        if (err) {
+            message.success = false;
+            message.error = err.message;
+        } else {
+            message.success = true;
+        }
+
+        // send back the status of the flash to the webpage so it knows when it's done/errored.
+        connectedPort.postMessage(message);
+    });
 }
 
 ////////////////////////////////////////////////////////
 /////////////////SERIAL MONITOR/////////////////////////
 ////////////////////////////////////////////////////////
 
-var connection = new serialLib.SerialConnection();
+var serialPortConnection = new serialLib.SerialConnection();
 
-connection.onConnect.addListener(function() {
+serialPortConnection.onConnect.addListener(function() {
     console.log('connected');
 });
 
-connection.onReadLine.addListener(function(line) {
-    portConnected.postMessage(line);
+serialPortConnection.onReadLine.addListener(function(line) {
+    console.log('onReadLine', line);
+    connectedPort.postMessage(line);
 });
