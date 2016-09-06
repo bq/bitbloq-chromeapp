@@ -1,38 +1,38 @@
 {
-  "name": "bitbloq-chromeapp",
-  "version": "1.0.0",
-  "description": "Bitbloq 2 Chrome App",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/bq/bitbloq-chromeapp.git"
-  },
-  "keywords": [
-    "Bitbloq",
-    "chromeapp",
-    "arduino"
-  ],
-  "author": "",
-  "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/bq/bitbloq-chromeapp/issues"
-  },
-  "homepage": "https://github.com/bq/bitbloq-chromeapp#readme",
-  "dependencies": {
-    "avrgirl-arduino": "^1.9.3"
-  },
-  "devDependencies": {
-    "browserify": "^13.1.0",
-    "grunt": "^1.0.1",
-    "grunt-contrib-clean": "^1.0.0",
-    "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-jshint": "^1.0.0",
-    "grunt-contrib-watch": "^1.0.0",
-    "grunt-exec": "^1.0.0",
-    "jshint-stylish": "^2.2.0",
-    "load-grunt-tasks": "^3.5.0"
-  }
+    "name": "bitbloq-chromeapp",
+    "version": "1.0.7",
+    "description": "Bitbloq 2 Chrome App",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/bq/bitbloq-chromeapp.git"
+    },
+    "keywords": [
+        "Bitbloq",
+        "chromeapp",
+        "arduino"
+    ],
+    "author": "",
+    "license": "GPL-3.0",
+    "bugs": {
+        "url": "https://github.com/bq/bitbloq-chromeapp/issues"
+    },
+    "homepage": "https://github.com/bq/bitbloq-chromeapp#readme",
+    "dependencies": {
+        "avrgirl-arduino": "^1.9.7"
+    },
+    "devDependencies": {
+        "browserify": "^13.1.0",
+        "grunt": "^1.0.1",
+        "grunt-contrib-clean": "^1.0.0",
+        "grunt-contrib-copy": "^1.0.0",
+        "grunt-contrib-jshint": "^1.0.0",
+        "grunt-contrib-watch": "^1.0.0",
+        "grunt-exec": "^1.0.0",
+        "jshint-stylish": "^2.2.0",
+        "load-grunt-tasks": "^3.5.0"
+    }
 }
