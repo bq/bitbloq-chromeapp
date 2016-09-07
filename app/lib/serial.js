@@ -40,16 +40,16 @@ exports.SerialConnection.prototype.onReceive = function(receiveInfo) {
         console.log('no será esto');
     } else {
         console.log('received');
-        console.log(receiveInfo.connectionId, this.connectionId);
-        console.log('this.endLineCharacter', this.endLineCharacter);
+        //console.log(receiveInfo.connectionId, this.connectionId);
+        //console.log('this.endLineCharacter', this.endLineCharacter);
 
         this.lineBuffer += utils.ab2str(receiveInfo.data);
 
-        console.log(this.lineBuffer);
+        //console.log(this.lineBuffer);
         if (this.lineBuffer.indexOf(this.endLineCharacter) !== -1) {
-            console.log('lineFoound sending');
-            console.log(this.lineBuffer);
-            console.log('lineFoound endsending');
+            //console.log('lineFoound sending');
+            //console.log(this.lineBuffer);
+            //console.log('lineFoound endsending');
             if (this.sendData) {
                 this.onReadLine.dispatch(this.lineBuffer);
             }
@@ -82,7 +82,7 @@ exports.SerialConnection.prototype.connect = function(params) {
         this.lastConnectionParams = params;
         this.endLineCharacter = params.endLineCharacter;
         serial.connect(params.path, {
-            ctsFlowControl: true
+            ctsFlowControl: false
         }, this.onConnectComplete.bind(this));
     }
 };
@@ -93,11 +93,15 @@ exports.SerialConnection.prototype.update = function(baudrate, callback) {
     }, callback);
 };
 
-exports.SerialConnection.prototype.send = function(msg) {
+exports.SerialConnection.prototype.send = function(msg, callback) {
     if (this.connectionId < 0) {
         throw 'Invalid connection';
     }
-    serial.send(this.connectionId, utils.str2ab(msg), function() {});
+    var msg2 = utils.str2ab(msg);
+    console.log('/********************/');
+    console.log(utils.ab2str(msg2));
+    console.log('/********************/');
+    serial.send(this.connectionId, msg2, callback);
 };
 
 exports.SerialConnection.prototype.disconnect = function(callback) {
