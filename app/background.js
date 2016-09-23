@@ -121,7 +121,17 @@ serialPortConnection.onConnect.addListener(function() {
     console.log('connected');
 });
 
+var canSendData = true;
+var buffer = '';
+
 serialPortConnection.onReadLine.addListener(function(line) {
-    console.log('onReadLine', line);
-    connectedPort.postMessage(line);
+    buffer = buffer + line;
+    if (canSendData) {
+        connectedPort.postMessage(buffer);
+        buffer = '';
+        canSendData = false;
+        setTimeout(function() {
+            canSendData = true;
+        }, 100);
+    }
 });

@@ -15,6 +15,7 @@
         "matches": [
             "http://front.bitbloq.k8s-dev.bq.com/",
             "*://bitbloq.bq.com/",
+	           "*://localhost:*/",
             "*://bitbloq.org/",
             "*://www.bitbloq.bq.com/"
         ]

@@ -35,18 +35,16 @@ exports.SerialConnection.prototype.onConnectComplete = function(connectionInfo) 
 };
 
 exports.SerialConnection.prototype.onReceive = function(receiveInfo) {
-
     if (receiveInfo.connectionId !== this.connectionId) {
         console.log('no será esto');
     } else {
-        console.log('received');
+        //console.log('received');
         //console.log(receiveInfo.connectionId, this.connectionId);
         //console.log('this.endLineCharacter', this.endLineCharacter);
 
         this.lineBuffer += utils.ab2str(receiveInfo.data);
 
-        //console.log(this.lineBuffer);
-        if (this.lineBuffer.indexOf(this.endLineCharacter) !== -1) {
+        if (this.lineBuffer.indexOf(this.endLineCharacter) !== -1 || this.lineBuffer.length > 40) {
             //console.log('lineFoound sending');
             //console.log(this.lineBuffer);
             //console.log('lineFoound endsending');
@@ -82,6 +80,7 @@ exports.SerialConnection.prototype.connect = function(params) {
         this.lastConnectionParams = params;
         this.endLineCharacter = params.endLineCharacter;
         serial.connect(params.path, {
+            bufferSize: 12288,
             ctsFlowControl: false
         }, this.onConnectComplete.bind(this));
     }
