@@ -47,11 +47,19 @@ function upload(msg, port) {
             var message = {
                 type: 'upload'
             };
-            if (error) {
+            if (!error ||
+                (error && (msg.board === 'uno') && error.message && (error.message.indexOf('timeout') !== -1) &&
+                    (
+                        (error.message.indexOf('55400020') !== -1) ||
+                        (error.message.indexOf('55400420') !== -1) ||
+                        (error.message.indexOf('55800420') !== -1) ||
+                        (error.message.indexOf('55c00420') !== -1))) //mBot always give timeout with this codes
+            ) {
+                message.success = true;
+
+            } else {
                 message.success = false;
                 message.error = error.message;
-            } else {
-                message.success = true;
             }
 
             // send back the status of the flash to the webpage so it knows when it's done/errored.
