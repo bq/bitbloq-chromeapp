@@ -52,6 +52,7 @@ function upload(msg, port) {
                     (
                         (error.message.indexOf('55400020') !== -1) ||
                         (error.message.indexOf('55400420') !== -1) ||
+                        (error.message.indexOf('55400220') !== -1) ||
                         (error.message.indexOf('55800420') !== -1) ||
                         (error.message.indexOf('55c00420') !== -1))) //mBot always give timeout with this codes
             ) {
