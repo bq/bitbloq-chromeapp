@@ -13,6 +13,7 @@ chrome.runtime.onConnectExternal.addListener(function(port) {
         console.log('msg', msg);
         switch (msg.type) {
             case 'upload':
+                console.log(msg.file);
                 upload(msg, port);
                 break;
             case 'ping':
@@ -39,7 +40,7 @@ chrome.runtime.onConnectExternal.addListener(function(port) {
 
     });
 });
-
+var MBOT_LOAD_ADDRESS_REGEXP = /55....20/; //mBot always give timeout with this codes
 function upload(msg, port) {
     // call flash process
     serialPortConnection.disconnect(function() {
@@ -47,14 +48,14 @@ function upload(msg, port) {
             var message = {
                 type: 'upload'
             };
+            console.log(error);
             if (!error ||
-                (error && (msg.board === 'uno') && error.message && (error.message.indexOf('timeout') !== -1) &&
-                    (
-                        (error.message.indexOf('55400020') !== -1) ||
-                        (error.message.indexOf('55400420') !== -1) ||
-                        (error.message.indexOf('55400220') !== -1) ||
-                        (error.message.indexOf('55800420') !== -1) ||
-                        (error.message.indexOf('55c00420') !== -1))) //mBot always give timeout with this codes
+                (error &&
+                    (msg.board === 'uno') &&
+                    error.message &&
+                    (error.message.indexOf('timeout') !== -1) &&
+                    MBOT_LOAD_ADDRESS_REGEXP.test(error.message)
+                )
             ) {
                 message.success = true;
 
