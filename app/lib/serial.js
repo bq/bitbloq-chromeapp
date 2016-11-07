@@ -36,7 +36,7 @@ exports.SerialConnection.prototype.onConnectComplete = function(connectionInfo) 
 
 exports.SerialConnection.prototype.onReceive = function(receiveInfo) {
     if (receiveInfo.connectionId !== this.connectionId) {
-        console.log('no será esto');
+        //console.log('no será esto2', receiveInfo, utils.ab2str(receiveInfo.data));
     } else {
         //console.log('received');
         //console.log(receiveInfo.connectionId, this.connectionId);
