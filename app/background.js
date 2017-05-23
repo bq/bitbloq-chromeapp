@@ -14,7 +14,10 @@ chrome.runtime.onConnectExternal.addListener(function(port) {
         switch (msg.type) {
             case 'upload':
                 console.log(msg.file);
+                //resetBoard(port, function() {
                 upload(msg, port);
+                //});
+
                 break;
             case 'ping':
                 port.postMessage('ping');
@@ -120,6 +123,56 @@ function getPorts() {
         connectedPort.postMessage(message);
     });
 }
+
+/*function resetBoard(path, callback) {
+    //process to reset a board with a path
+    //connect with 1200 baidrate
+    //dtr tru 1 second
+    //dtr false 200 ms
+    //dtr true
+    //disconnect
+    var sharedConnectionInfo;
+    chrome.serial.connect(path, {
+        name: 'bitbloq-board-reset',
+        bitrate: 1200,
+        sendTimeout: 1000,
+        receiveTimeout: 1000,
+        ctsFlowControl: true
+    }, function(connectionInfo) {
+        console.log('connected reset', connectionInfo);
+        if (connectionInfo && connectionInfo.connectionId) {
+            sharedConnectionInfo = connectionInfo;
+            chrome.serial.setControlSignals(sharedConnectionInfo.connectionId, {
+                dtr: true,
+                rts: false
+            }, function(data) {
+                console.log('setControlSignals', data);
+                setTimeout(function() {
+                    chrome.serial.setControlSignals(sharedConnectionInfo.connectionId, {
+                        dtr: false,
+                        rts: false
+                    }, function(data) {
+                        console.log('setControlSignals-2', data);
+                        setTimeout(function() {
+                            chrome.serial.setControlSignals(sharedConnectionInfo.connectionId, {
+                                dtr: true,
+                                rts: false
+                            }, function(data) {
+                                console.log('setControlSignals-3', data);
+                                chrome.serial.disconnect(sharedConnectionInfo.connectionId, function(data) {
+                                    console.log('disconnect', data);
+                                    callback();
+                                });
+                            });
+                        }, 200);
+
+                    });
+                }, 1000);
+            });
+        }
+
+    });
+}*/
 
 ////////////////////////////////////////////////////////
 /////////////////SERIAL MONITOR/////////////////////////
