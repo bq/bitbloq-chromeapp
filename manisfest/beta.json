@@ -15,7 +15,8 @@
         "matches": [
             "http://beta-bitbloq.bq.com/",
             "http://front-next.bitbloq.k8s.bq.com/",
-            "http://front-robots.bitbloq.k8s.bq.com/"
+            "http://front-robots.bitbloq.k8s.bq.com/",
+            "*://127.0.0.1:*/"
         ]
     },
     "permissions": [

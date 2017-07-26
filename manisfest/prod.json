@@ -1,7 +1,7 @@
 {
     "name": "Bitbloq",
     "description": "Bitbloq Chrome app",
-    "version": "1.0.18",
+    "version": "1.0.19",
     "manifest_version": 2,
     "author": "BQ",
     "app": {
@@ -16,7 +16,9 @@
             "http://front.bitbloq.k8s-dev.bq.com/",
             "*://bitbloq.bq.com/",
             "*://bitbloq.org/",
-            "*://www.bitbloq.bq.com/"
+            "*://www.bitbloq.bq.com/",
+            "*://bitbloq.cc/",
+            "*://www.bitbloq.cc/"
         ]
     },
     "permissions": [
