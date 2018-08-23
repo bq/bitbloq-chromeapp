@@ -1,7 +1,7 @@
 {
     "name": "Bitbloq",
     "description": "Bitbloq Chrome app",
-    "version": "1.0.18",
+    "version": "1.0.22",
     "manifest_version": 2,
     "author": "BQ",
     "app": {

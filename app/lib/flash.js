@@ -3,7 +3,7 @@ var Avrgirl = require('avrgirl-arduino');
 
 module.exports.flash = function(board, file, callback) {
     var avrgirl = new Avrgirl({
-        board: board,
+        board: board === 'zumjunior' || board === 'zumcore2' ? 'uno' : board,
         debug: true
     });
 
